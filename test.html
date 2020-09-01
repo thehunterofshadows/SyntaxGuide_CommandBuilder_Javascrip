@@ -1,5 +1,15 @@
 <!DOCTYPE html>
 <html>
+<script>
+  function codeSegment() {
+    myCode = "g = ggplot(" + document.getElementById("dataInput").value + 
+      ", aes(" +document.getElementById("xInput").value+
+      "," +
+      document.getElementById("yInput").value+
+      ")"
+    return myCode
+  }
+  </script>
 <body>
 
 
@@ -7,6 +17,7 @@
 <p id="demo"></p>
 
 <p id="codeBlock">JavaScript can change HTML content.</p>
+<p id="codeBlock2">JavaScript can change HTML content.</p>
 
 
 
@@ -32,6 +43,7 @@
     document.getElementById("yInput").value+
     ")"'>Click Me!</button>
 
+<button type="button" onclick='document.getElementById("codeBlock2").innerHTML = codeSegment()'>Click Me 2!</button>
 <!-- create javascript function to create the ggplot code so you can use if statements -->
 </body>
 </html> 
