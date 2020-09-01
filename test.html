@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>My First JavaScript</h2>
+
+<button type="button"
+onclick="document.getElementById('demo').innerHTML = Date()">
+Click me to display Date and Time.</button>
+
+<p id="demo"></p>
+
+<p id="codeBlock">JavaScript can change HTML content.</p>
+
+<button type="button" onclick='document.getElementById("codeBlock").innerHTML = 
+    "g = ggplot2(x,y)" + document.getElementById("xInput").value;'>Click Me!</button>
+
+
+
+<form>
+    <label for="xInput">X:</label>
+    <input type="text" id="xInput" name="xInput"><br>
+    <label for="yInput">Y:</label>
+    <input type="text" id="yInput" name="yInput">
+  </form>
+</body>
+</html> 
