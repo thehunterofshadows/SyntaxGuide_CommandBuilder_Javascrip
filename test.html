@@ -1,13 +1,18 @@
 <!DOCTYPE html>
 <script>
   function codeSegment() {
+    //Add the data to the plot
     myCode = "g = ggplot(" + document.getElementById("dataInput").value + 
       ", aes(" +
       document.getElementById("xInput").value+
       "," +
       document.getElementById("yInput").value+
       "))"
-      //myTest = document.getElementById("labelsYN").value
+
+    //Add the plot type
+    myCode = myCode + ' + ' + document.getElementById("plotType").value + '()' 
+    
+    //add labels if requested
     if (document.getElementById("labelsYN").checked){
       myCode = myCode + " + labs(" +
         'x="'+document.getElementById("xLabel").value+
@@ -36,11 +41,20 @@
   <label for="xInput">X: </label><input type="text" id="xInput" name="xInput" placeholder="xName">
   <label for="yInput">Y: </label><input type="text" id="yInput" name="yInput" placeholder="yName">
   <br><br>
+  <label for="plotType">Choose Plot Type:</label>
+  <select name="plotType" id="plotType">
+    <option value="geom_point">Point</option>
+    <option value="geom_hist">Histogram</option>
+  </select>
+  <br><br>
   <label for="labelsYN">Set Manual Labels?:</label>
   <input type="checkbox" id="labelsYN" name="labelsYN">
-  <label for="xLabel">X Label: </label><input type="text" id="xLabel" name="xLabel" placeholder="xLabel">
-  <label for="yLabel">Y Label: </label><input type="text" id="yLabel" name="yLabel" placeholder="yLabel">
-  <label for="titleLabel">Title: </label><input type="text" id="titleLabel" name="titleLabel" placeholder="titleLabel">
+  <br>
+  <label for="xLabel">X Label: &nbsp;</label><input type="text" id="xLabel" name="xLabel" placeholder="xLabel">
+  <br>
+  <label for="yLabel">Y Label:  &nbsp;</label><input type="text" id="yLabel" name="yLabel" placeholder="yLabel">
+  <br>
+  <label for="titleLabel">Title: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label><input type="text" id="titleLabel" name="titleLabel" placeholder="titleLabel">
 </form>
 <br>
 
