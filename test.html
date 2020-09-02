@@ -1,15 +1,26 @@
 <!DOCTYPE html>
-<html>
 <script>
   function codeSegment() {
     myCode = "g = ggplot(" + document.getElementById("dataInput").value + 
-      ", aes(" +document.getElementById("xInput").value+
+      ", aes(" +
+      document.getElementById("xInput").value+
       "," +
       document.getElementById("yInput").value+
-      ")"
+      "))"
+      //myTest = document.getElementById("labelsYN").value
+    if (document.getElementById("labelsYN").checked){
+      myCode = myCode + " + labs(" +
+        'x="'+document.getElementById("xLabel").value+
+        '",y="'+document.getElementById("xLabel").value+
+        '",title="'+document.getElementById("titleLabel").value+
+        '")'
+      ;
+    }
     return myCode
   }
   </script>
+<html>
+
 <body>
 
 
@@ -17,33 +28,23 @@
 <p id="demo"></p>
 
 <p id="codeBlock">JavaScript can change HTML content.</p>
-<p id="codeBlock2">JavaScript can change HTML content.</p>
-
-
-
 
 
 <form>
-  <label for="dataInput">Data: </label><input type="text" id="dataInput" name="dataInput">
+  <label for="dataInput">Data: </label><input type="text" id="dataInput" name="dataInput" placeholder="data">
   <br><br>
-  <label for="xInput">X: </label><input type="text" id="xInput" name="xInput">
-  <label for="yInput">Y: </label><input type="text" id="yInput" name="yInput">
+  <label for="xInput">X: </label><input type="text" id="xInput" name="xInput" placeholder="xName">
+  <label for="yInput">Y: </label><input type="text" id="yInput" name="yInput" placeholder="yName">
   <br><br>
   <label for="labelsYN">Set Manual Labels?:</label>
   <input type="checkbox" id="labelsYN" name="labelsYN">
-  <label for="xLabel">X Label: </label><input type="text" id="xLabel" name="xLabel">
-  <label for="yLabel">Y Label: </label><input type="text" id="yLabel" name="yLabel">
-  <label for="titleLabel">Title: </label><input type="text" id="titleLabel" name="titleLabel">
+  <label for="xLabel">X Label: </label><input type="text" id="xLabel" name="xLabel" placeholder="xLabel">
+  <label for="yLabel">Y Label: </label><input type="text" id="yLabel" name="yLabel" placeholder="yLabel">
+  <label for="titleLabel">Title: </label><input type="text" id="titleLabel" name="titleLabel" placeholder="titleLabel">
 </form>
 <br>
-<button type="button" onclick='document.getElementById("codeBlock").innerHTML = 
-  "g = ggplot(" + document.getElementById("dataInput").value + 
-  ", aes(" +document.getElementById("xInput").value+
-    "," +
-    document.getElementById("yInput").value+
-    ")"'>Click Me!</button>
 
-<button type="button" onclick='document.getElementById("codeBlock2").innerHTML = codeSegment()'>Click Me 2!</button>
+<button type="button" onclick='document.getElementById("codeBlock").innerHTML = codeSegment()'>Click Me!</button>
 <!-- create javascript function to create the ggplot code so you can use if statements -->
 </body>
 </html> 
