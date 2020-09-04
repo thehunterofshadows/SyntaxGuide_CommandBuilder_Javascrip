@@ -1,25 +1,34 @@
 <!DOCTYPE html>
 <script>
+  function add_comma(x){
+    var y= x;
+    y = y.trim();
+    y = y.replace(" ",", ")
+    return y;
+  }
   function get_pointType(){
-    if(document.getElementById("pointType").value=="") {return ""}
+    if(document.getElementById("pointType").value== '') {return ""}
     else {
-      return 'shape = ' + document.getElementById("pointType").value + ' '
+      return 'shape=' + document.getElementById("pointType").value + ' '
     } 
   }
   function get_colorInput(){
     if(document.getElementById("colorInput").value=="") {return ""}
     else {
-      return 'color = ""' + document.getElementById("colorInput").value + '" '
+      return 'color="' + document.getElementById("colorInput").value + '" '
     } 
   }
   function get_geomPoint(){
-    return 'geom_point(' + get_colorInput() + get_pointType() +')'
+    return (' geom_point(' + add_comma(get_colorInput() + get_pointType()) +')')
+  }
+  function get_plotType(){
+    return document.getElementById("plotType").value
   }
 </script>
 <script>
   function codeSegment() {
     //add defaults
-    defaults()
+    //defaults()
     //Add the data to the plot
     myCode = "g = ggplot(" + document.getElementById("dataInput").value + 
       ", aes(" +
@@ -29,9 +38,12 @@
       "))"
 
     //Add the plot type & add colours if requested
-    if (document.getElementById("colorInput").value==""){myCode = myCode + ' + ' + document.getElementById("plotType").value + '()'}
-    else
-    {myCode = myCode + ' + ' + document.getElementById("plotType").value + '(aes(colour = ' +document.getElementById("colorInput").value + '))'}
+    if(get_plotType=="geom_point"){myCode = myCode+get_geomPoint()+"test"}
+    myCode = myCode+get_geomPoint()
+    
+    //if (document.getElementById("colorInput").value==""){myCode = myCode + ' + ' + document.getElementById("plotType").value + '()'}
+    //else
+    //{myCode = myCode + ' + ' + document.getElementById("plotType").value + '(aes(colour = ' +document.getElementById("colorInput").value + '))'}
     
     //add labels if requested
     if (document.getElementById("labelsYN").checked){
@@ -82,8 +94,8 @@
     //this function shows sections if the corrsponding box is checked.
 
     //show point types
-    if(document.getElementById("plotType").value=="geom_point"){document.getElementById("pointType").style.display="block";
-    } else {document.getElementById("pointType").style.display="none";}
+    if(document.getElementById("plotType").value=="geom_point"){document.getElementById("pointTypeDiv").style.display="block";
+    } else {document.getElementById("pointTypeDiv").style.display="none";}
 
     //add labels
     if (document.getElementById("labelsYN").checked){document.getElementById("labels").style.display = "block";
@@ -124,7 +136,7 @@
   <br>
 
   <label for="colorInput">Colours?: &nbsp;</label><input type="text" id="colorInput" name="colorInput" placeholder="default no color">
-  <div id="pointType">
+  <div id="pointTypeDiv">
     <label for="pointType">Point Type: </label><input type="text" id="pointType" name="pointType" placeholder="#0 to 23 - blank=black dot">
   </div>
 

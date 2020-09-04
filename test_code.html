@@ -1,0 +1,19 @@
+<html>
+
+        <script>
+            function add_comma(x){
+              var y= x;
+              y = y.trim();
+              y = y.replace(" ",", ")
+              return y;
+            }
+            function run(){
+                document.getElementById("myText").value = add_comma('shape=3 color="43" y ') + "xx";
+                document.getElementById("myText2").value = " x test x ";
+            }
+            </script>
+        <input type="text" id="myText" name="myText">
+        <input type="text" id="myText2" name="myText2">
+        <body onload="run()">
+    </body>
+</html>
