@@ -1,6 +1,25 @@
 <!DOCTYPE html>
 <script>
+  function get_pointType(){
+    if(document.getElementById("pointType").value=="") {return ""}
+    else {
+      return 'shape = ' + document.getElementById("pointType").value + ' '
+    } 
+  }
+  function get_colorInput(){
+    if(document.getElementById("colorInput").value=="") {return ""}
+    else {
+      return 'color = ""' + document.getElementById("colorInput").value + '" '
+    } 
+  }
+  function get_geomPoint(){
+    return 'geom_point(' + get_colorInput() + get_pointType() +')'
+  }
+</script>
+<script>
   function codeSegment() {
+    //add defaults
+    defaults()
     //Add the data to the plot
     myCode = "g = ggplot(" + document.getElementById("dataInput").value + 
       ", aes(" +
@@ -9,8 +28,10 @@
       document.getElementById("yInput").value+
       "))"
 
-    //Add the plot type
-    myCode = myCode + ' + ' + document.getElementById("plotType").value + '()' 
+    //Add the plot type & add colours if requested
+    if (document.getElementById("colorInput").value==""){myCode = myCode + ' + ' + document.getElementById("plotType").value + '()'}
+    else
+    {myCode = myCode + ' + ' + document.getElementById("plotType").value + '(aes(colour = ' +document.getElementById("colorInput").value + '))'}
     
     //add labels if requested
     if (document.getElementById("labelsYN").checked){
@@ -27,9 +48,9 @@
       myCode = myCode + " + geom_smooth(" +
         'method="'+document.getElementById("smoothType").value + '" '
         if(document.getElementById("seYN").checked){
-          myCode = myCode + 'se=TRUE)'
+          myCode = myCode + ', se=TRUE)'
         } else {
-          myCode = myCode + 'se=FALSE)'
+          myCode = myCode + ', se=FALSE)'
         }
         '",y="'+document.getElementById("xLabel").value+
         '",title="'+document.getElementById("titleLabel").value+
@@ -39,10 +60,44 @@
 
     return myCode
   }
+
+  function defaults(){
+    document.getElementById("dataInput").value = "mtcars"
+    document.getElementById("xInput").value = "mpg"
+    document.getElementById("yInput").value = "hp"
+
+    document.getElementById("plotType").value = "geom_point"
+
+    document.getElementById("labelsYN").checked = "On"
+    document.getElementById("xLabel").value = "MPG"
+    document.getElementById("yLabel").value = "HP"
+    document.getElementById("titleLabel").value = "MT Cars Compare MPG to HP"
+
+    document.getElementById("smoothYN").checked = "On"
+    document.getElementById("smoothType").value = "lm"
+    document.getElementById("seYN").checked = "On"
+  }
+
+  function checkedShow(){
+    //this function shows sections if the corrsponding box is checked.
+
+    //show point types
+    if(document.getElementById("plotType").value=="geom_point"){document.getElementById("pointType").style.display="block";
+    } else {document.getElementById("pointType").style.display="none";}
+
+    //add labels
+    if (document.getElementById("labelsYN").checked){document.getElementById("labels").style.display = "block";
+    } else { document.getElementById("labels").style.display = "none"; }
+
+    //add regression line
+    if (document.getElementById("smoothYN").checked){document.getElementById("smooth").style.display = "block";}
+    else 
+    {document.getElementById("smooth").style.display = "none";}
+  }
   </script>
 <html>
 
-<body>
+<body onload="checkedShow()">
 
 
 
@@ -52,50 +107,59 @@
 
 
 <form>
+  
   <label for="dataInput">Data: </label><input type="text" id="dataInput" name="dataInput" placeholder="data">
-  <br><br>
+  <br>
   <label for="xInput">X: </label><input type="text" id="xInput" name="xInput" placeholder="xName">
+  <br>
   <label for="yInput">Y: </label><input type="text" id="yInput" name="yInput" placeholder="yName">
+  
   <br><br>
+  
   <label for="plotType">Choose Plot Type:</label>
-  <select name="plotType" id="plotType">
+  <select name="plotType" id="plotType" onclick="checkedShow()">
     <option value="geom_point">Point</option>
     <option value="geom_hist">Histogram</option>
   </select>
+  <br>
+
+  <label for="colorInput">Colours?: &nbsp;</label><input type="text" id="colorInput" name="colorInput" placeholder="default no color">
+  <div id="pointType">
+    <label for="pointType">Point Type: </label><input type="text" id="pointType" name="pointType" placeholder="#0 to 23 - blank=black dot">
+  </div>
+
+  
   <br><br>
 
-  <label for="labelsYN">Set Manual Labels?:</label> <input type="checkbox" id="labelsYN" name="labelsYN">
-  
-  <br>
-
-  <label for="xLabel">X Label: &nbsp;</label><input type="text" id="xLabel" name="xLabel" placeholder="xLabel">
-  
-  <br>
-
-  <label for="yLabel">Y Label:  &nbsp;</label><input type="text" id="yLabel" name="yLabel" placeholder="yLabel">
-  
-  <br>
-
-  <label for="titleLabel">Title: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label><input type="text" id="titleLabel" name="titleLabel" placeholder="titleLabel">
+  <label for="labelsYN">Set Manual Labels?:</label> <input type="checkbox" id="labelsYN" name="labelsYN" onclick="checkedShow()">
+  <div  id="labels">
+    <label for="xLabel">X Label: &nbsp;</label><input type="text" id="xLabel" name="xLabel" placeholder="xLabel">
+    <br>
+    <label for="yLabel">Y Label:  &nbsp;</label><input type="text" id="yLabel" name="yLabel" placeholder="yLabel">
+    <br>
+    <label for="titleLabel">Title: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label><input type="text" id="titleLabel" name="titleLabel" placeholder="titleLabel">
+  </div>
 
   <br><br>
 
-  <label for="smoothYN">Add regression line:</label> <input type="checkbox" id="smoothYN" name="smoothYN">
-  
+  <label for="smoothYN">Add regression line:</label> <input type="checkbox" id="smoothYN" name="smoothYN" onclick="checkedShow()">
+  <div id="smooth">
   <br>
-
   <label for="smoothType">Choose Plot Type:</label> <select name="smoothType" id="smoothType">
     <option value="lm">LM - Linear model</option>
     <option value="loess">Loess</option>
   </select>
-  
+
   <br>
 
   <label for="seYN">Include confidance level:</label> <input type="checkbox" id="seYN" name="seYN">
+</div>
 </form>
 <br>
 
 <button type="button" onclick='document.getElementById("codeBlock").innerHTML = codeSegment()'>Click Me!</button>
+
+<button type="button" onclick='defaults()'>Set Defaults!</button>
 <!-- create javascript function to create the ggplot code so you can use if statements -->
 </body>
 </html> 
